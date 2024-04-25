@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Items in List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-lg mx-auto mt-10 p-4 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Move Items in List</h2>
+        <ul id="itemList" class="grid gap-2">
+            <li draggable="true" ondragstart="dragStart(event)" class="bg-gray-200 py-2 px-4 rounded-md cursor-move">Item 1</li>
+            <li draggable="true" ondragstart="dragStart(event)" class="bg-gray-200 py-2 px-4 rounded-md cursor-move">Item 2</li>
+            <li draggable="true" ondragstart="dragStart(event)" class="bg-gray-200 py-2 px-4 rounded-md cursor-move">Item 3</li>
+            <li draggable="true" ondragstart="dragStart(event)" class="bg-gray-200 py-2 px-4 rounded-md cursor-move">Item 4</li>
+            <li draggable="true" ondragstart="dragStart(event)" class="bg-gray-200 py-2 px-4 rounded-md cursor-move">Item 5</li>
+        </ul>
+    </div>
+
+    <script>
+        let dragSrcEl = null;
+
+        function dragStart(e) {
+            dragSrcEl = e.target;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', e.target.innerHTML);
+        }
+
+        function dragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function dragEnter(e) {
+            this.classList.add('bg-gray-300');
+        }
+
+        function dragLeave(e) {
+            this.classList.remove('bg-gray-300');
+        }
+
+        function dragDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            if (dragSrcEl !== this) {
+                dragSrcEl.innerHTML = this.innerHTML;
+                this.innerHTML = e.dataTransfer.getData('text/html');
+            }
+            return false;
+        }
+
+        function addListeners() {
+            const items = document.querySelectorAll('#itemList li');
+            items.forEach(function(item) {
+                item.addEventListener('dragstart', dragStart, false);
+                item.addEventListener('dragenter', dragEnter, false);
+                item.addEventListener('dragover', dragOver, false);
+                item.addEventListener('dragleave', dragLeave, false);
+                item.addEventListener('drop', dragDrop, false);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', addListeners);
+    </script>
+</body>
+</html>

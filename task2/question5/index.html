@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monetary Value Formatting</title>
+</head>
+<body>
+    <h2>Monetary Value Formatting</h2>
+    <label for="amountInput">Enter a monetary value:</label>
+    <input type="text" id="amountInput" placeholder="Enter amount">
+    <button onclick="formatValue()">Format</button>
+
+    <label for="unitSelect">Select unit:</label>
+    <select id="unitSelect">
+        <option value="international">International</option>
+        <option value="nepali">Nepali</option>
+    </select>
+
+    <p id="result"></p>
+
+    <script>
+        function formatValue() {
+            const amountInput = document.getElementById('amountInput').value;
+            const unitSelect = document.getElementById('unitSelect').value;
+            const resultDisplay = document.getElementById('result');
+
+            
+            const amount = parseFloat(amountInput.replace(/,/g, ''));
+
+            if (isNaN(amount)) {
+                resultDisplay.textContent = "Invalid input";
+                return;
+            }
+
+    
+            let formattedAmount = '';
+            if (unitSelect === 'international') {
+                formattedAmount = amount.toLocaleString('en', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            } else if (unitSelect === 'nepali') {
+                formattedAmount = amount.toLocaleString('en', { maximumFractionDigits: 2 });
+                formattedAmount = formattedAmount.replace(/(\d)(?=(\d{2})+(?!\d))/g, '$1,');
+            }
+
+            resultDisplay.textContent = formattedAmount;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagram Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Anagram Checker</h2>
+    <input type="text" id="string1" placeholder="Enter first string">
+    <br>
+    <input type="text" id="string2" placeholder="Enter second string">
+    <br>
+    <button onclick="checkAnagram()">Check Anagram</button>
+    <p id="result"></p>
+</div>
+
+<script>
+    function areAnagrams(str1, str2) {
+        str1 = str1.replace(/\s/g, '').toLowerCase();
+        str2 = str2.replace(/\s/g, '').toLowerCase();
+
+        if (str1.length !== str2.length) {
+            return false;
+        }
+
+        const sortedStr1 = str1.split('').sort().join('');
+        const sortedStr2 = str2.split('').sort().join('');
+
+        return sortedStr1 === sortedStr2;
+    }
+
+    function checkAnagram() {
+        const string1 = document.getElementById("string1").value;
+        const string2 = document.getElementById("string2").value;
+
+        if (areAnagrams(string1, string2)) {
+            document.getElementById("result").innerText = "The strings are anagrams!";
+        } else {
+            document.getElementById("result").innerText = "The strings are not anagrams.";
+        }
+    }
+</script>
+
+</body>
+</html>
